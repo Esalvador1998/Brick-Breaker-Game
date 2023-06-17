@@ -38,27 +38,27 @@ canvas.addEventListener("touchmove", touchMoveHandler, false);
 canvas.addEventListener("touchend", touchEndHandler, false);
 
 let touchX = null;
+let paddleTouchOffset = null;
 
 function touchStartHandler(e) {
   e.preventDefault();
   let touch = e.touches[0];
   touchX = touch.clientX;
+  paddleTouchOffset = touch.clientX - paddleX;
 }
 
 function touchMoveHandler(e) {
   e.preventDefault();
   let touch = e.touches[0];
-  paddleX = touch.clientX - paddleWidth / 2;
-  if (paddleX < 0) {
-    paddleX = 0;
-  }
-  if (paddleX + paddleWidth > canvas.width) {
-    paddleX = canvas.width - paddleWidth;
+  let newPaddleX = touch.clientX - paddleTouchOffset;
+  if (newPaddleX >= 0 && newPaddleX + paddleWidth <= canvas.width) {
+    paddleX = newPaddleX;
   }
 }
 
 function touchEndHandler() {
   touchX = null;
+  paddleTouchOffset = null;
 }
 
 // Draw paddle
@@ -165,12 +165,9 @@ function init() {
 
   // Adjust paddle position based on touch
   if (touchX !== null) {
-    paddleX = touchX - paddleWidth / 2;
-    if (paddleX < 0) {
-      paddleX = 0;
-    }
-    if (paddleX + paddleWidth > canvas.width) {
-      paddleX = canvas.width - paddleWidth;
+    let newPaddleX = touchX - paddleTouchOffset;
+    if (newPaddleX >= 0 && newPaddleX + paddleWidth <= canvas.width) {
+      paddleX = newPaddleX;
     }
   }
 }
