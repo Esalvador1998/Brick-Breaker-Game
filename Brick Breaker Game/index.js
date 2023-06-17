@@ -46,7 +46,9 @@ function touchStartHandler(e) {
 
 function touchMoveHandler(e) {
   e.preventDefault();
-  touchX = e.touches[0].clientX;
+  let rect = canvas.getBoundingClientRect();
+  let root = document.documentElement;
+  touchX = e.touches[0].clientX - rect.left - root.scrollLeft;
 }
 
 function touchEndHandler() {
