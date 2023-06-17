@@ -33,26 +33,36 @@ for (let c = 0; c < columnCount; c++) {
 }
 
 // Touch event listeners and functions
-document.addEventListener("touchstart", touchStartHandler, false);
-document.addEventListener("touchmove", touchMoveHandler, false);
-document.addEventListener("touchend", touchEndHandler, false);
+canvas.addEventListener("touchstart", touchStartHandler, false);
+canvas.addEventListener("touchmove", touchMoveHandler, false);
+canvas.addEventListener("touchend", touchEndHandler, false);
 
-let touchX = null;
+let touchActive = false;
 
 function touchStartHandler(e) {
   e.preventDefault();
-  touchX = e.touches[0].clientX;
+  let touch = e.touches[0];
+  if (touch.clientX >= paddleX && touch.clientX <= paddleX + paddleWidth && touch.clientY >= canvas.height - paddleHeight) {
+    touchActive = true;
+  }
 }
 
 function touchMoveHandler(e) {
   e.preventDefault();
-  let rect = canvas.getBoundingClientRect();
-  let root = document.documentElement;
-  touchX = e.touches[0].clientX - rect.left - root.scrollLeft;
+  if (touchActive) {
+    let touch = e.touches[0];
+    paddleX = touch.clientX - paddleWidth / 2;
+    if (paddleX < 0) {
+      paddleX = 0;
+    }
+    if (paddleX + paddleWidth > canvas.width) {
+      paddleX = canvas.width - paddleWidth;
+    }
+  }
 }
 
 function touchEndHandler() {
-  touchX = null;
+  touchActive = false;
 }
 
 // Draw paddle
@@ -156,17 +166,6 @@ function init() {
   // Move Ball
   x += dx;
   y += dy;
-
-  // Adjust paddle position based on touch
-  if (touchX !== null) {
-    paddleX = touchX - paddleWidth / 2;
-    if (paddleX < 0) {
-      paddleX = 0;
-    }
-    if (paddleX + paddleWidth > canvas.width) {
-      paddleX = canvas.width - paddleWidth;
-    }
-  }
 }
 
 setInterval(init, 10);
