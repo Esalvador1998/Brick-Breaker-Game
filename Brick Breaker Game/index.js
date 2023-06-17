@@ -46,10 +46,7 @@ function touchStartHandler(e) {
 
 function touchMoveHandler(e) {
   e.preventDefault();
-  let relativeX = e.touches[0].clientX - canvas.offsetLeft;
-  if (relativeX > 0 && relativeX < canvas.width) {
-    paddleX = relativeX - paddleWidth / 2;
-  }
+  touchX = e.touches[0].clientX;
 }
 
 function touchEndHandler() {
@@ -160,10 +157,7 @@ function init() {
 
   // Adjust paddle position based on touch
   if (touchX !== null) {
-    let relativeX = touchX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth / 2;
-    }
+    paddleX = touchX - paddleWidth / 2;
   }
 }
 
