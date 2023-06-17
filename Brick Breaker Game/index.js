@@ -32,41 +32,28 @@ for (let c = 0; c < columnCount; c++) {
   }
 }
 
-// Mouse and touch event listeners and function
-document.addEventListener("mousemove", mouseMoveHandler, false);
+// Touch event listeners and functions
 document.addEventListener("touchstart", touchStartHandler, false);
 document.addEventListener("touchmove", touchMoveHandler, false);
 document.addEventListener("touchend", touchEndHandler, false);
 
-// Move paddle with mouse
-function mouseMoveHandler(e) {
-  let relativeX = e.clientX - canvas.offsetLeft;
-  if (relativeX > 0 && relativeX < canvas.width) {
-    paddleX = relativeX - paddleWidth / 2;
-  }
-}
+let touchX = null;
 
-// Move paddle with touch
 function touchStartHandler(e) {
   e.preventDefault();
-  let touch = e.touches[0];
-  let relativeX = touch.clientX - canvas.offsetLeft;
-  if (relativeX > 0 && relativeX < canvas.width) {
-    paddleX = relativeX - paddleWidth / 2;
-  }
+  touchX = e.touches[0].clientX;
 }
 
 function touchMoveHandler(e) {
   e.preventDefault();
-  let touch = e.touches[0];
-  let relativeX = touch.clientX - canvas.offsetLeft;
+  let relativeX = e.touches[0].clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth / 2;
   }
 }
 
 function touchEndHandler() {
-  paddleX = (canvas.width - paddleWidth) / 2;
+  touchX = null;
 }
 
 // Draw paddle
@@ -170,6 +157,14 @@ function init() {
   // Move Ball
   x += dx;
   y += dy;
+
+  // Adjust paddle position based on touch
+  if (touchX !== null) {
+    let relativeX = touchX - canvas.offsetLeft;
+    if (relativeX > 0 && relativeX < canvas.width) {
+      paddleX = relativeX - paddleWidth / 2;
+    }
+  }
 }
 
 setInterval(init, 10);
