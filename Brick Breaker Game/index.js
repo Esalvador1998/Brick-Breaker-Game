@@ -160,6 +160,12 @@ function init() {
   // Adjust paddle position based on touch
   if (touchX !== null) {
     paddleX = touchX - paddleWidth / 2;
+    if (paddleX < 0) {
+      paddleX = 0;
+    }
+    if (paddleX + paddleWidth > canvas.width) {
+      paddleX = canvas.width - paddleWidth;
+    }
   }
 }
 
