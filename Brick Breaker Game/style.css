@@ -4,6 +4,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #efefef;
+  overflow: hidden; /* Prevent scrolling on mobile */
 }
 
 #game {
@@ -12,4 +13,6 @@ body {
   border: 2px solid #333;
   width: 80%;
   max-width: 500px; /* Adjust the max-width as needed */
+  touch-action: manipulation; /* Improve touch responsiveness */
 }
+
