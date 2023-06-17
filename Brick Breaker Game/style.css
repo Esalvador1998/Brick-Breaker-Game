@@ -1,13 +1,15 @@
-body{
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #efefef;
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #efefef;
 }
 
-#game{
-    background-color: #ccc;
-    margin-top: 10rem;
-    border: 2px solid #333;
+#game {
+  background-color: #ccc;
+  margin-top: 5%;
+  border: 2px solid #333;
+  width: 80%;
+  max-width: 500px; /* Adjust the max-width as needed */
 }
