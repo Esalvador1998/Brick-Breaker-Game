@@ -40,14 +40,15 @@ function touchStartHandler(e) {
   let touch = e.touches[0];
   touchX = touch.clientX;
   let canvasPosition = canvas.getBoundingClientRect().left;
-  paddleTouchOffset = touch.clientX - canvasPosition - paddleX;
+  paddleTouchOffset = touchX - canvasPosition - paddleX;
 }
 
 function touchMoveHandler(e) {
   e.preventDefault();
   let touch = e.touches[0];
-  let canvasPosition = canvas.getBoundingClientRect().left;
-  let newPaddleX = touch.clientX - canvasPosition - paddleTouchOffset;
+  let deltaX = touch.clientX - touchX; // Calculate the amount of movement in X direction.
+  touchX = touch.clientX; // Update the touchX.
+  let newPaddleX = paddleX + deltaX;
   if (newPaddleX >= 0 && newPaddleX + paddleWidth <= canvas.width) {
     paddleX = newPaddleX;
   }
@@ -146,14 +147,6 @@ function init() {
 
   x += dx;
   y += dy;
-
-  if (touchX !== null) {
-    let canvasPosition = canvas.getBoundingClientRect().left;
-    let newPaddleX = touchX - canvasPosition - paddleTouchOffset;
-    if (newPaddleX >= 0 && newPaddleX + paddleWidth <= canvas.width) {
-      paddleX = newPaddleX;
-    }
-  }
 }
 
 setInterval(init, 10);
