@@ -28,35 +28,29 @@ for (let c = 0; c < columnCount; c++) {
   }
 }
 
-canvas.addEventListener("touchstart", touchStartHandler, false);
-canvas.addEventListener("touchmove", touchMoveHandler, false);
-canvas.addEventListener("touchend", touchEndHandler, false);
+canvas.addEventListener("pointerdown", pointerDownHandler, false);
+canvas.addEventListener("pointermove", pointerMoveHandler, false);
+canvas.addEventListener("pointerup", pointerUpHandler, false);
 
-let touchX = null;
-let paddleTouchOffset = null;
+let pointerX = null;
 
-function touchStartHandler(e) {
+function pointerDownHandler(e) {
   e.preventDefault();
-  let touch = e.touches[0];
-  touchX = touch.clientX;
-  let canvasPosition = canvas.getBoundingClientRect().left;
-  paddleTouchOffset = touchX - canvasPosition - paddleX;
+  pointerX = e.clientX;
 }
 
-function touchMoveHandler(e) {
+function pointerMoveHandler(e) {
   e.preventDefault();
-  let touch = e.touches[0];
-  let deltaX = touch.clientX - touchX; // Calculate the amount of movement in X direction.
-  touchX = touch.clientX; // Update the touchX.
+  let deltaX = e.clientX - pointerX;
+  pointerX = e.clientX;
   let newPaddleX = paddleX + deltaX;
   if (newPaddleX >= 0 && newPaddleX + paddleWidth <= canvas.width) {
     paddleX = newPaddleX;
   }
 }
 
-function touchEndHandler() {
-  touchX = null;
-  paddleTouchOffset = null;
+function pointerUpHandler() {
+  pointerX = null;
 }
 
 function drawPaddle() {
